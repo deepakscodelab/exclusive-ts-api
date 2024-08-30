@@ -1,12 +1,3 @@
 /node_modules
-HtmlFiles/
-/HtmlFiles
-/Backup
-bundle.js
 npm-debug.log
-.DS_Store
-
-# IntelliJ
-*.iml
-/.idea
-
+.env
