@@ -1,0 +1,7 @@
+Run in development mode
+
+C:\Users\d.ab.sharma\Documents\node-projects\tilesonweb_api> npm run-script dev
+
+In Prod
+
+C:\Users\d.ab.sharma\Documents\node-projects\tilesonweb_api> npm start
