@@ -36,7 +36,7 @@ export async function addProduct(
   }
 }
 
-export async function productList(req: Request, res: Response) {
+export async function getPoductList(req: Request, res: Response) {
   let client = null;
   const table = '$$SCHEMANAME$$.products';
   try {

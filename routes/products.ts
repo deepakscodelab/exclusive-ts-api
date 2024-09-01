@@ -1,6 +1,6 @@
 import express, { Router } from 'express';
-import { addProduct, productList } from '../handler/products';
-import { body, checkSchema } from 'express-validator';
+import { addProduct, getPoductList } from '../handler/products';
+import { checkSchema } from 'express-validator';
 import { createProductValidationSchema } from '../utils/validationSchemas';
 
 const router: Router = express.Router();
@@ -8,17 +8,12 @@ const router: Router = express.Router();
 router.get('/', (req, res) => {
   const response: { message: string } = { message: '' };
   response.message = 'Product list';
-
   res.status(200).send(response);
 });
 
-router.post(
-  '/addProduct',
-  checkSchema(createProductValidationSchema),
-  addProduct
-);
+router.post('/add', checkSchema(createProductValidationSchema), addProduct);
 
-router.get('/productList', productList);
+router.get('/list', getPoductList);
 
 //Call function inside the routes
 

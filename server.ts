@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 // Register the routes
 import routeAuth from './routes/authentication';
 import routeProducts from './routes/products';
+import routeCart from './routes/cart';
 import routeOrders from './routes/orders';
 
 const app = express();
@@ -52,6 +53,7 @@ router.get('/', (req: Request, res: Response) => {
 
 app.use('/api/v1/auth', routeAuth);
 app.use('/api/v1/product', routeProducts);
+app.use('/api/v1/cart', routeCart);
 app.use('/api/v1/order', routeOrders);
 
 // start the server

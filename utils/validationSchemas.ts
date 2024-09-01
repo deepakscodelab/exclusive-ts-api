@@ -25,3 +25,26 @@ export const createProductValidationSchema = {
     }
   }
 };
+
+export const createCartValidationSchema = {
+  user_id: {
+    notEmpty: {
+      errorMessage: 'User Id cannot be empty'
+    }
+  },
+  product_id: {
+    notEmpty: {
+      errorMessage: 'Product Id cannot be empty'
+    }
+  },
+  qty: {
+    notEmpty: {
+      errorMessage: 'Quantity cannot be empty'
+    }
+  },
+  status: {
+    notEmpty: {
+      errorMessage: 'Status cannot be empty'
+    }
+  }
+};
