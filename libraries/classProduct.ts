@@ -1,25 +1,9 @@
 import { PoolClient } from 'pg';
 import { replaceSchema } from '../app/helpers';
-
-interface ProductData {
-  product_name: string;
-  price: number;
-  discount_percentage: number;
-  discounted_price: number;
-  img: string;
-  review: string;
-  rating: string;
-}
-
-interface CartData {
-  user_id: string;
-  product_id: string;
-  qty: number;
-  status: string;
-}
+import { CreateProduct, AddCart } from '../types/request';
 
 export default class Product {
-  static async saveProduct(client: PoolClient, data: ProductData) {
+  static async saveProduct(client: PoolClient, data: CreateProduct) {
     const text =
       'INSERT INTO $$SCHEMANAME$$.products(product_name, price, discount_percentage, discounted_price, img, review, rating) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *';
     const values = [
@@ -43,7 +27,7 @@ export default class Product {
 
   static async addToCart(
     client: PoolClient,
-    data: CartData
+    data: AddCart
   ): Promise<{ cart_price?: number; [key: number]: any }> {
     const updatedResult: { cart_price?: number; [key: number]: any } = {};
     const sqlStatement: string = `INSERT INTO $$SCHEMANAME$$.cart(user_id, product_id, qty, status) VALUES($1, $2, $3, $4) RETURNING id', [${data.user_id}, ${data.product_id}, ${data.qty}, ${data.status}]`;

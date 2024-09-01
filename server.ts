@@ -32,7 +32,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     process.env.NODE_ENV === 'production'
       ? 'https://tilesonweb.herokuapp.com'
       : 'http://localhost:8080';
-  res.header('Access-Control-Allow-Origin', originUrl);
+  res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
   res.header(
     'Access-Control-Allow-Headers',
