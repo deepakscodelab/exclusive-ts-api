@@ -13,8 +13,8 @@ router.get('/', (req, res) => {
     response.message = 'Product list';
     res.status(200).send(response);
 });
-router.post('/addProduct', (0, express_validator_1.checkSchema)(validationSchemas_1.createProductValidationSchema), products_1.addProduct);
-router.get('/productList', products_1.productList);
+router.post('/add', (0, express_validator_1.checkSchema)(validationSchemas_1.createProductValidationSchema), products_1.addProduct);
+router.get('/list', products_1.getPoductList);
 //Call function inside the routes
 // router.get('/productList', async (req, res) => {
 //   let client = null;

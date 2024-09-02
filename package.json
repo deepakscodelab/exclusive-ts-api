@@ -22,6 +22,7 @@
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "pg": "^8.12.0",
+    "pg-format": "^1.0.4",
     "sha1": "^1.1.1",
     "xml2js": "^0.6.2"
   },
@@ -34,6 +35,7 @@
     "@types/passport-jwt": "^4.0.1",
     "@types/passport-local": "^1.0.38",
     "@types/pg": "^8.11.8",
+    "@types/pg-format": "^1.0.5",
     "@types/sha1": "^1.1.5",
     "@types/xml2js": "^0.4.14",
     "copyfiles": "^2.4.1",

@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addProduct = addProduct;
-exports.productList = productList;
+exports.getPoductList = getPoductList;
 const db_1 = __importDefault(require("../app/db"));
 const helpers_1 = require("../app/helpers");
 const classProduct_1 = __importDefault(require("../libraries/classProduct"));
@@ -37,7 +37,7 @@ async function addProduct(req, res) {
         (0, helpers_1.clientClose)(client);
     }
 }
-async function productList(req, res) {
+async function getPoductList(req, res) {
     let client = null;
     const table = '$$SCHEMANAME$$.products';
     try {

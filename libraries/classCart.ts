@@ -59,9 +59,14 @@ export default class Cart {
   }
 
   static async getCartItems(client: PoolClient, data: { userId: string }) {
+    const { userId } = data;
     const sqlStatement: string =
-      'select sc.*, sp.product_name, sp.price, sp.discount_percentage, sp.discounted_price, sp.img, sp.review, sp.rating  from $$SCHEMANAME$$.cart sc left join $$SCHEMANAME$$.products sp ON sc.product_id=sp.id';
-    const dbResult: any = await client.query(replaceSchema(sqlStatement));
+      'select sc.*, sp.product_name, sp.price, sp.discount_percentage, sp.discounted_price, sp.img, sp.review, sp.rating  from $$SCHEMANAME$$.cart sc left join $$SCHEMANAME$$.products sp ON sc.product_id=sp.id where user_id=$1 AND status=true';
+    const values = [userId];
+    const dbResult: any = await client.query(
+      replaceSchema(sqlStatement),
+      values
+    );
     return dbResult.rowCount ? dbResult.rows : [];
   }
 }

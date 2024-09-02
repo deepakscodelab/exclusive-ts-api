@@ -18,7 +18,7 @@
    <version Id="0002_table_cart" file="0002_table_cart.sql" />
    <version Id="0003_table_orders" file="0003_table_orders.sql" />
    <version Id="0004_table_order_details" file="0004_table_order_details.sql" />
-   <version Id="0005_table_shipping_details" file="0005_table_shipping_details.sql" />
+   <version Id="0005_table_shipping_details" file="0005_table_billing_details.sql" />
    <version Id="store_procedure" file="store_procedure.sql" />
     <version Id="FUNCTION_InsertEmployee">
       <statement>

@@ -1,48 +1,44 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const helpers_1 = require("../app/helpers");
+const pg_format_1 = __importDefault(require("pg-format"));
 class Order {
     static async saveOrder(client, data) {
-        const text = 'INSERT INTO $$SCHEMANAME$$.users(first_name, last_name,email,phone_number,fax,password,company,address1,address2,city,postcode) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *';
+        const { userId, shippingAmount, totalPrice, totalItems, paymentStatus, orderStatus, cancelReason, couponCode } = data;
+        const text = 'INSERT INTO $$SCHEMANAME$$.orders(user_id, shipping_amount, total_price, total_items, payment_status, order_status, cancel_reason, coupon_code) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
         const values = [
-            data.first_name,
-            data.last_name,
-            data.email,
-            data.phone_number,
-            data.fax,
-            data.password,
-            data.company,
-            data.address1,
-            data.address2,
-            data.city,
-            data.postcode
+            userId,
+            shippingAmount,
+            totalPrice,
+            totalItems,
+            paymentStatus,
+            orderStatus,
+            cancelReason,
+            couponCode
         ];
-        // console.log(sqlStatement);
         const dbresult = await client.query((0, helpers_1.replaceSchema)(text), values);
         let result = null;
-        // console.log(dbresult);
         if (dbresult.rowCount) {
             [result] = dbresult.rows;
         }
         return result;
     }
     static async saveOrderDetails(client, data) {
-        const text = 'INSERT INTO $$SCHEMANAME$$.users(first_name, last_name,email,phone_number,fax,password,company,address1,address2,city,postcode) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *';
-        const values = [
-            data.first_name,
-            data.last_name,
-            data.email,
-            data.phone_number,
-            data.fax,
-            data.password,
-            data.company,
-            data.address1,
-            data.address2,
-            data.city,
-            data.postcode
-        ];
+        const text = 'INSERT INTO $$SCHEMANAME$$.order_details (order_id, cart_id, product_id, product_price, discount_percentage, discounted_price, qty) VALUES %L RETURNING id';
+        const values = data.map((item) => [
+            item.orderId,
+            item.cartId,
+            item.productId,
+            item.price,
+            item.qty,
+            item.discountPercentage,
+            item.discountedPrice
+        ]);
         // console.log(sqlStatement);
-        const dbresult = await client.query((0, helpers_1.replaceSchema)(text), values);
+        const dbresult = await client.query((0, pg_format_1.default)((0, helpers_1.replaceSchema)(text), values));
         let result = null;
         // console.log(dbresult);
         if (dbresult.rowCount) {
@@ -50,25 +46,21 @@ class Order {
         }
         return result;
     }
-    static async saveShippingDetails(client, data) {
-        const text = 'INSERT INTO $$SCHEMANAME$$.users(first_name, last_name,email,phone_number,fax,password,company,address1,address2,city,postcode) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *';
+    static async saveBillingDetails(client, data) {
+        const { orderId, firstName, companyName, address, apartmentAdd, city, phoneNo, email } = data;
+        const text = 'INSERT INTO $$SCHEMANAME$$.billing_details(order_id, first_name, company_name, address, apartment_add, city, phone_no, email) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id';
         const values = [
-            data.first_name,
-            data.last_name,
-            data.email,
-            data.phone_number,
-            data.fax,
-            data.password,
-            data.company,
-            data.address1,
-            data.address2,
-            data.city,
-            data.postcode
+            orderId,
+            firstName,
+            companyName,
+            address,
+            apartmentAdd,
+            city,
+            phoneNo,
+            email
         ];
-        // console.log(sqlStatement);
         const dbresult = await client.query((0, helpers_1.replaceSchema)(text), values);
         let result = null;
-        // console.log(dbresult);
         if (dbresult.rowCount) {
             [result] = dbresult.rows;
         }

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createProductValidationSchema = void 0;
+exports.createCartValidationSchema = exports.createProductValidationSchema = void 0;
 exports.createProductValidationSchema = {
     product_name: {
         notEmpty: {
@@ -25,6 +25,28 @@ exports.createProductValidationSchema = {
     img: {
         notEmpty: {
             errorMessage: 'Image cannot be empty'
+        }
+    }
+};
+exports.createCartValidationSchema = {
+    user_id: {
+        notEmpty: {
+            errorMessage: 'User Id cannot be empty'
+        }
+    },
+    product_id: {
+        notEmpty: {
+            errorMessage: 'Product Id cannot be empty'
+        }
+    },
+    qty: {
+        notEmpty: {
+            errorMessage: 'Quantity cannot be empty'
+        }
+    },
+    status: {
+        notEmpty: {
+            errorMessage: 'Status cannot be empty'
         }
     }
 };

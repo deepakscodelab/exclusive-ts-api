@@ -14,3 +14,14 @@ export interface AddCart {
   qty: number;
   status: string;
 }
+
+export interface OrderDataType {
+  userId: number;
+  shippingAmount: number;
+  totalPrice: number;
+  totalItems: number;
+  paymentStatus: string;
+  orderStatus: string;
+  cancelReason?: string;
+  couponCode: string;
+}

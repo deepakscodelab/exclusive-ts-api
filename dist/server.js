@@ -8,6 +8,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 // Register the routes
 const authentication_1 = __importDefault(require("./routes/authentication"));
 const products_1 = __importDefault(require("./routes/products"));
+const cart_1 = __importDefault(require("./routes/cart"));
 const orders_1 = __importDefault(require("./routes/orders"));
 const app = (0, express_1.default)();
 // Routes for APIs
@@ -44,6 +45,7 @@ router.get('/', (req, res) => {
 });
 app.use('/api/v1/auth', authentication_1.default);
 app.use('/api/v1/product', products_1.default);
+app.use('/api/v1/cart', cart_1.default);
 app.use('/api/v1/order', orders_1.default);
 // start the server
 // app.listen(port);

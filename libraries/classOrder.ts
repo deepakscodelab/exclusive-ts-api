@@ -1,67 +1,85 @@
 import { PoolClient } from 'pg';
 import { replaceSchema } from '../app/helpers';
-
-interface OrderData {
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone_number: string;
-  fax: string;
-  password: string;
-  company: string;
-  address1: string;
-  address2: string;
-  city: string;
-  postcode: string;
-}
+import { OrderDataType } from '../types/request';
+import format from 'pg-format';
 
 interface OrderDetails {
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone_number: string;
-  fax: string;
-  password: string;
-  company: string;
-  address1: string;
-  address2: string;
-  city: string;
-  postcode: string;
+  orderId: number;
+  cartId: number;
+  productId: number;
+  price: number;
+  qty: number;
+  discountPercentage: number;
+  discountedPrice: number;
 }
 
-interface ShippingDetails {
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone_number: string;
-  fax: string;
-  password: string;
-  company: string;
-  address1: string;
-  address2: string;
+interface BillingDetails {
+  orderId: number;
+  firstName: string;
+  companyName: string;
+  address: string;
+  apartmentAdd: string;
   city: string;
-  postcode: string;
+  phoneNo: string;
+  email: string;
 }
 
 export default class Order {
-  static async saveOrder(client: PoolClient, data: OrderData) {
+  static async saveOrder(client: PoolClient, data: OrderDataType) {
+    const {
+      userId,
+      shippingAmount,
+      totalPrice,
+      totalItems,
+      paymentStatus,
+      orderStatus,
+      cancelReason,
+      couponCode
+    } = data;
     const text =
-      'INSERT INTO $$SCHEMANAME$$.users(first_name, last_name,email,phone_number,fax,password,company,address1,address2,city,postcode) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *';
+      'INSERT INTO $$SCHEMANAME$$.orders(user_id, shipping_amount, total_price, total_items, payment_status, order_status, cancel_reason, coupon_code) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
     const values = [
-      data.first_name,
-      data.last_name,
-      data.email,
-      data.phone_number,
-      data.fax,
-      data.password,
-      data.company,
-      data.address1,
-      data.address2,
-      data.city,
-      data.postcode
+      userId,
+      shippingAmount,
+      totalPrice,
+      totalItems,
+      paymentStatus,
+      orderStatus,
+      cancelReason,
+      couponCode
     ];
-    // console.log(sqlStatement);
     const dbresult = await client.query(replaceSchema(text), values);
+    let result = null;
+    if (dbresult.rowCount) {
+      [result] = dbresult.rows;
+    }
+    return result;
+  }
+
+  static async saveOrderDetails(client: PoolClient, data: OrderDetails[]) {
+    const text =
+      'INSERT INTO $$SCHEMANAME$$.order_details (order_id, cart_id, product_id, product_price, discount_percentage, discounted_price, qty) VALUES %L RETURNING id';
+    const values = data.map(
+      (item: {
+        orderId: number;
+        cartId: number;
+        productId: number;
+        price: number;
+        qty: number;
+        discountPercentage: number;
+        discountedPrice: number;
+      }) => [
+        item.orderId,
+        item.cartId,
+        item.productId,
+        item.price,
+        item.qty,
+        item.discountPercentage,
+        item.discountedPrice
+      ]
+    );
+    // console.log(sqlStatement);
+    const dbresult = await client.query(format(replaceSchema(text), values));
     let result = null;
     // console.log(dbresult);
     if (dbresult.rowCount) {
@@ -70,52 +88,32 @@ export default class Order {
     return result;
   }
 
-  static async saveOrderDetails(client: PoolClient, data: OrderDetails) {
-    const text =
-      'INSERT INTO $$SCHEMANAME$$.users(first_name, last_name,email,phone_number,fax,password,company,address1,address2,city,postcode) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *';
-    const values = [
-      data.first_name,
-      data.last_name,
-      data.email,
-      data.phone_number,
-      data.fax,
-      data.password,
-      data.company,
-      data.address1,
-      data.address2,
-      data.city,
-      data.postcode
-    ];
-    // console.log(sqlStatement);
-    const dbresult = await client.query(replaceSchema(text), values);
-    let result = null;
-    // console.log(dbresult);
-    if (dbresult.rowCount) {
-      [result] = dbresult.rows;
-    }
-    return result;
-  }
+  static async saveBillingDetails(client: PoolClient, data: BillingDetails) {
+    const {
+      orderId,
+      firstName,
+      companyName,
+      address,
+      apartmentAdd,
+      city,
+      phoneNo,
+      email
+    } = data;
 
-  static async saveShippingDetails(client: PoolClient, data: ShippingDetails) {
     const text =
-      'INSERT INTO $$SCHEMANAME$$.users(first_name, last_name,email,phone_number,fax,password,company,address1,address2,city,postcode) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *';
+      'INSERT INTO $$SCHEMANAME$$.billing_details(order_id, first_name, company_name, address, apartment_add, city, phone_no, email) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id';
     const values = [
-      data.first_name,
-      data.last_name,
-      data.email,
-      data.phone_number,
-      data.fax,
-      data.password,
-      data.company,
-      data.address1,
-      data.address2,
-      data.city,
-      data.postcode
+      orderId,
+      firstName,
+      companyName,
+      address,
+      apartmentAdd,
+      city,
+      phoneNo,
+      email
     ];
-    // console.log(sqlStatement);
     const dbresult = await client.query(replaceSchema(text), values);
     let result = null;
-    // console.log(dbresult);
     if (dbresult.rowCount) {
       [result] = dbresult.rows;
     }
