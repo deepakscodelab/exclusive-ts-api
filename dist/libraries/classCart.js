@@ -37,5 +37,11 @@ class Cart {
         const dbResult = await client.query((0, helpers_1.replaceSchema)(sqlStatement), values);
         return dbResult.rowCount ? dbResult.rows : [];
     }
+    static async updateCartAfterOrderPlaced(client, userId) {
+        const sqlStatement = 'UPDATE $$SCHEMANAME$$.cart SET status=false WHERE status=true AND user_id=$1';
+        const values = [userId];
+        const dbResult = await client.query((0, helpers_1.replaceSchema)(sqlStatement), values);
+        return dbResult.rowCount ? dbResult.rows : null;
+    }
 }
 exports.default = Cart;

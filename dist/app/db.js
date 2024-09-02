@@ -20,13 +20,18 @@ const dbconfig = {
     host: params.hostname,
     port: parseInt(params.port),
     database: params.pathname.split('/')[1],
-    ssl: {
-        rejectUnauthorized: false
-    },
     max: 30,
     min: 2
 };
-const pool = new pg_1.Pool(dbconfig);
+const dbConfigSsl = process.env.DATABASE_URL
+    ? {
+        ...dbconfig,
+        ssl: {
+            rejectUnauthorized: false
+        }
+    }
+    : dbconfig;
+const pool = new pg_1.Pool(dbConfigSsl);
 pool.on('error', (error, client) => {
     console.log(`ERROR pool connection :${error}`);
 });

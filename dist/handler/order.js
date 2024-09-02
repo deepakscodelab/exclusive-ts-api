@@ -56,6 +56,7 @@ async function placeOrder(req, res) {
                     orderId: orderResult.id
                 };
                 const billingResult = await classOrder_1.default.saveBillingDetails(client, billingPayload);
+                await classCart_1.default.updateCartAfterOrderPlaced(client, userId);
                 if (billingResult !== null) {
                     res.status(200).json({
                         msg: 'Order place successfully'
@@ -72,6 +73,7 @@ async function placeOrder(req, res) {
         client.release();
     }
     catch (error) {
+        console.log(error);
         res.status(500).send();
         (0, helpers_1.clientClose)(client);
     }

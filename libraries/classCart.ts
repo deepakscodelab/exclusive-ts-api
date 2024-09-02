@@ -69,4 +69,15 @@ export default class Cart {
     );
     return dbResult.rowCount ? dbResult.rows : [];
   }
+
+  static async updateCartAfterOrderPlaced(
+    client: PoolClient,
+    userId: string
+  ): Promise<any[] | null> {
+    const sqlStatement: string =
+      'UPDATE $$SCHEMANAME$$.cart SET status=false WHERE status=true AND user_id=$1';
+    const values = [userId];
+    const dbResult = await client.query(replaceSchema(sqlStatement), values);
+    return dbResult.rowCount ? dbResult.rows : null;
+  }
 }

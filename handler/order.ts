@@ -91,6 +91,8 @@ export async function placeOrder(req: Request, res: Response) {
           billingPayload
         );
 
+        await Cart.updateCartAfterOrderPlaced(client, userId);
+
         if (billingResult !== null) {
           res.status(200).json({
             msg: 'Order place successfully'
@@ -104,6 +106,7 @@ export async function placeOrder(req: Request, res: Response) {
     }
     client.release();
   } catch (error) {
+    console.log(error);
     res.status(500).send();
     clientClose(client);
   }

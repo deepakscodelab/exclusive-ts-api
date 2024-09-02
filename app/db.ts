@@ -20,7 +20,7 @@ const dbconfig: {
   host: string;
   port: number;
   database: string;
-  ssl: {
+  ssl?: {
     rejectUnauthorized: boolean;
   };
   max: number;
@@ -31,14 +31,20 @@ const dbconfig: {
   host: params.hostname!,
   port: parseInt(params.port!),
   database: params.pathname!.split('/')[1],
-  ssl: {
-    rejectUnauthorized: false
-  },
   max: 30,
   min: 2
 };
 
-const pool: Pool = new Pool(dbconfig);
+const dbConfigSsl = process.env.DATABASE_URL
+  ? {
+      ...dbconfig,
+      ssl: {
+        rejectUnauthorized: false
+      }
+    }
+  : dbconfig;
+
+const pool: Pool = new Pool(dbConfigSsl);
 
 pool.on('error', (error, client) => {
   console.log(`ERROR pool connection :${error}`);
