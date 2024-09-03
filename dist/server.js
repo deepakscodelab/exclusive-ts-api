@@ -20,13 +20,21 @@ app.set('port', process.env.PORT || 3000);
 if (env === 'production') {
     // app.use(forceSsl);
 }
-app.use(express_1.default.static('public'));
+app.use(express_1.default.static(__dirname));
+app.use('*.css', (req, res, next) => {
+    res.set('Content-Type', 'text/css');
+    next();
+});
+// app.use(express.static('public'));
 // console.log(__dirname);
 // app.use(express.static(path.join(__dirname, 'public')));
 // CDN CSS
-const CSS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.6.0/swagger-ui.min.css';
-const JS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.6.0/swagger-ui.min.js';
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { customCssUrl: CSS_URL }, { customJs: JS_URL }));
+const CSS_URL = './node_modules/swagger-ui-dist/swagger-ui.css';
+const JS_URL = [
+    './node_modules/swagger-ui-dist/swagger-ui-bundle.js',
+    './node_modules/swagger-ui-dist/swagger-ui-standalone-preset.js'
+];
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { customCssUrl: CSS_URL, customJs: JS_URL }));
 app.use('/api', router);
 // Setting up basic middleware for all Express requests
 app.use(body_parser_1.default.urlencoded({ extended: false })); // Parses urlencoded bodies
