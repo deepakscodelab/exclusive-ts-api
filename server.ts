@@ -21,18 +21,11 @@ if (env === 'production') {
   // app.use(forceSsl);
 }
 
-app.use(express.static(__dirname));
-app.use('*.css', (req, res, next) => {
-  res.set('Content-Type', 'text/css');
-  next();
-});
-
-// app.use(express.static('public'));
-// console.log(__dirname);
-// app.use(express.static(path.join(__dirname, 'public')));
+// Swagger setup
 
 // CDN CSS
-const CSS_URL = './node_modules/swagger-ui-dist/swagger-ui.css';
+const CSS_URL =
+  'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css';
 
 // const JS_URL = [
 //   './node_modules/swagger-ui-dist/swagger-ui-bundle.js',
@@ -45,6 +38,8 @@ app.use(
   swaggerUi.setup(swaggerSpec, { customCssUrl: CSS_URL })
   // swaggerUi.setup(swaggerSpec, { customCssUrl: CSS_URL, customJs: JS_URL })
 );
+
+// till here
 
 app.use('/api', router);
 // Setting up basic middleware for all Express requests
