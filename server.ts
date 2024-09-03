@@ -28,10 +28,13 @@ app.use(express.static('public'));
 const CSS_URL =
   'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.6.0/swagger-ui.min.css';
 
+const JS_URL =
+  'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.6.0/swagger-ui.min.js';
+
 app.use(
   '/api-docs',
   swaggerUi.serve,
-  swaggerUi.setup(swaggerSpec, { customCssUrl: CSS_URL })
+  swaggerUi.setup(swaggerSpec, { customCssUrl: CSS_URL }, { customJs: JS_URL })
 );
 
 app.use('/api', router);

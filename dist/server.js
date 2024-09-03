@@ -25,7 +25,8 @@ app.use(express_1.default.static('public'));
 // app.use(express.static(path.join(__dirname, 'public')));
 // CDN CSS
 const CSS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.6.0/swagger-ui.min.css';
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { customCssUrl: CSS_URL }));
+const JS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.6.0/swagger-ui.min.js';
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { customCssUrl: CSS_URL }, { customJs: JS_URL }));
 app.use('/api', router);
 // Setting up basic middleware for all Express requests
 app.use(body_parser_1.default.urlencoded({ extended: false })); // Parses urlencoded bodies
