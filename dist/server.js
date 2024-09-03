@@ -34,6 +34,9 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
 // swaggerUi.setup(swaggerSpec, { customCssUrl: CSS_URL, customJs: JS_URL })
 );
 // till here
+app.get('/', (req, res) => {
+    res.send('Welcome to exclusive app API');
+});
 app.use('/api', router);
 // Setting up basic middleware for all Express requests
 app.use(body_parser_1.default.urlencoded({ extended: false })); // Parses urlencoded bodies
@@ -61,7 +64,6 @@ app.use('/api/v1/product', products_1.default);
 app.use('/api/v1/cart', cart_1.default);
 app.use('/api/v1/order', orders_1.default);
 // start the server
-// app.listen(port);
 app.listen(app.get('port'), () => {
     console.log('Node app is running on port', app.get('port'));
 });

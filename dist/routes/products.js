@@ -28,10 +28,34 @@ router.get('/', (req, res) => {
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               product_name:
  *                 type: string
  *                 description: The product's name.
  *                 example: Addidas shoes
+ *               price:
+ *                 type: integer
+ *                 description: The product's price.
+ *                 example: 500
+ *               discount_percentage:
+ *                 type: integer
+ *                 description: The product's discount percentage.
+ *                 example: 20
+ *               discounted_price:
+ *                 type: integer
+ *                 description: The product's discounted price.
+ *                 example: 400
+ *               img:
+ *                 type: string
+ *                 description: The product's image.
+ *                 example: product.jpg
+ *               review:
+ *                 type: integer
+ *                 description: The product's review.
+ *                 example: 40
+ *               rating:
+ *                 type: integer
+ *                 description: The product's rating.
+ *                 example: 4
  *     responses:
  *       201:
  *         description: Created
@@ -40,9 +64,10 @@ router.get('/', (req, res) => {
  *             schema:
  *               type: object
  *               properties:
- *                 data:
- *                   type: object
- *                   properties:
+ *                     status:
+ *                       type: string
+ *                       description: status code
+ *                       example: 201
  *                     msg:
  *                       type: string
  *                       description: success message.

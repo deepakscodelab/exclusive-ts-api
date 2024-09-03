@@ -29,11 +29,7 @@ export default class Common {
 
   static async findAll(client: PoolClient, table: string) {
     const sqlStatement = `select * from ${table} `;
-    const dbresult = await client.query(replaceSchema(sqlStatement));
-    let result = null;
-    if (dbresult.rowCount) {
-      result = dbresult.rows;
-    }
-    return result;
+    const dbResult = await client.query(replaceSchema(sqlStatement));
+    return dbResult.rowCount ? dbResult.rows : [];
   }
 }

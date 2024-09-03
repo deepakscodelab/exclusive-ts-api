@@ -21,10 +21,11 @@ async function addToCart(req, res) {
         const data = req.body;
         const result = await classCart_1.default.addToCart(client, data);
         if (result) {
-            res.status(200).send({ msg: 'Product added into the cart' });
+            res.status(201).send({ status: 201, msg: 'Product added into the cart' });
         }
         else {
             res.status(400).send({
+                status: 400,
                 msg: 'Something went wrong. Not able to add cart'
             });
         }
@@ -44,10 +45,10 @@ async function removeFromCart(req, res) {
         client = await db_1.default.connect();
         const result = await classCart_1.default.removeFromCart(client, payload);
         if (result) {
-            res.status(200).send({ msg: 'item removed from cart' });
+            res.status(200).send({ status: 200, msg: 'item removed from cart' });
         }
         else {
-            res.status(400).send({ msg: 'failed to remove cart item' });
+            res.status(400).send({ status: 400, msg: 'failed to remove cart item' });
         }
         client.release();
     }
@@ -68,10 +69,10 @@ async function updateItemQty(req, res) {
         client = await db_1.default.connect();
         const result = await classCart_1.default.updateItemQty(client, payload);
         if (result) {
-            res.status(200).send({ msg: 'Qty successfully updated' });
+            res.status(200).send({ status: 200, msg: 'Qty successfully updated' });
         }
         else {
-            res.status(400).send({ msg: 'Not able to update quantity' });
+            res.status(400).send({ status: 400, msg: 'Not able to update quantity' });
         }
         client.release();
     }
@@ -88,10 +89,10 @@ async function getCartItems(req, res) {
         client = await db_1.default.connect();
         const result = await classCart_1.default.getCartItems(client, payload);
         if (result) {
-            res.status(200).send(result);
+            res.status(200).send({ status: 200, data: result });
         }
         else {
-            res.status(400).send({ msg: 'Error while fetching data' });
+            res.status(400).send({ status: 400, msg: 'Error while fetching data' });
         }
         client.release();
     }

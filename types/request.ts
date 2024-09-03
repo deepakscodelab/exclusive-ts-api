@@ -12,7 +12,7 @@ export interface AddCart {
   user_id: string;
   product_id: string;
   qty: number;
-  status: string;
+  status: boolean;
 }
 
 export interface OrderDataType {

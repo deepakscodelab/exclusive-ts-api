@@ -45,6 +45,10 @@ app.use(
 
 // till here
 
+app.get('/', (req, res) => {
+  res.send('Welcome to exclusive app API');
+});
+
 app.use('/api', router);
 // Setting up basic middleware for all Express requests
 app.use(bodyParser.urlencoded({ extended: false })); // Parses urlencoded bodies
@@ -81,7 +85,6 @@ app.use('/api/v1/cart', routeCart);
 app.use('/api/v1/order', routeOrders);
 
 // start the server
-// app.listen(port);
 app.listen(app.get('port'), () => {
   console.log('Node app is running on port', app.get('port'));
 });

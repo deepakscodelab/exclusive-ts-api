@@ -22,12 +22,8 @@ class Common {
     }
     static async findAll(client, table) {
         const sqlStatement = `select * from ${table} `;
-        const dbresult = await client.query((0, helpers_1.replaceSchema)(sqlStatement));
-        let result = null;
-        if (dbresult.rowCount) {
-            result = dbresult.rows;
-        }
-        return result;
+        const dbResult = await client.query((0, helpers_1.replaceSchema)(sqlStatement));
+        return dbResult.rowCount ? dbResult.rows : [];
     }
 }
 exports.default = Common;

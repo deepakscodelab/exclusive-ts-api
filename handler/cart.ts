@@ -3,7 +3,6 @@ import { Request, Response } from 'express-serve-static-core';
 import pool from '../app/db';
 import { clientClose } from '../app/helpers';
 import Cart from '../libraries/classCart';
-import { PoolClient } from 'pg';
 
 export async function addToCart(req: Request, res: Response) {
   let client = null;
@@ -16,9 +15,10 @@ export async function addToCart(req: Request, res: Response) {
     const data = req.body;
     const result = await Cart.addToCart(client, data);
     if (result) {
-      res.status(200).send({ msg: 'Product added into the cart' });
+      res.status(201).send({ status: 201, msg: 'Product added into the cart' });
     } else {
       res.status(400).send({
+        status: 400,
         msg: 'Something went wrong. Not able to add cart'
       });
     }
@@ -38,9 +38,9 @@ export async function removeFromCart(req: Request, res: Response) {
     client = await pool.connect();
     const result = await Cart.removeFromCart(client, payload);
     if (result) {
-      res.status(200).send({ msg: 'item removed from cart' });
+      res.status(200).send({ status: 200, msg: 'item removed from cart' });
     } else {
-      res.status(400).send({ msg: 'failed to remove cart item' });
+      res.status(400).send({ status: 400, msg: 'failed to remove cart item' });
     }
     client.release();
   } catch (error) {
@@ -66,9 +66,9 @@ export async function updateItemQty(req: Request, res: Response) {
     const result = await Cart.updateItemQty(client, payload);
 
     if (result) {
-      res.status(200).send({ msg: 'Qty successfully updated' });
+      res.status(200).send({ status: 200, msg: 'Qty successfully updated' });
     } else {
-      res.status(400).send({ msg: 'Not able to update quantity' });
+      res.status(400).send({ status: 400, msg: 'Not able to update quantity' });
     }
     client.release();
   } catch (error) {
@@ -85,9 +85,9 @@ export async function getCartItems(req: Request, res: Response) {
     client = await pool.connect();
     const result = await Cart.getCartItems(client, payload);
     if (result) {
-      res.status(200).send(result);
+      res.status(200).send({ status: 200, data: result });
     } else {
-      res.status(400).send({ msg: 'Error while fetching data' });
+      res.status(400).send({ status: 400, msg: 'Error while fetching data' });
     }
     client.release();
   } catch (error) {

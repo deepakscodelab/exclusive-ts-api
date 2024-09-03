@@ -15,13 +15,7 @@ export default class Product {
       data.review,
       data.rating
     ];
-    // console.log(values);
     const dbresult = await client.query(replaceSchema(queryStr), values);
-    let result = null;
-    // console.log(dbresult);
-    if (dbresult.rowCount) {
-      [result] = dbresult.rows;
-    }
-    return result;
+    return dbresult.rowCount ? dbresult.rows : null;
   }
 }

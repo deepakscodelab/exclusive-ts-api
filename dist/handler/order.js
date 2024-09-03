@@ -58,17 +58,18 @@ async function placeOrder(req, res) {
                 const billingResult = await classOrder_1.default.saveBillingDetails(client, billingPayload);
                 await classCart_1.default.updateCartAfterOrderPlaced(client, userId);
                 if (billingResult !== null) {
-                    res.status(200).json({
+                    res.status(201).send({
+                        status: 201,
                         msg: 'Order place successfully'
                     });
                 }
                 else {
-                    res.status(400).send('Something went wrong');
+                    res.status(400).send({ status: 400, msg: 'Something went wrong' });
                 }
             }
         }
         else {
-            res.status(400).send({ error: 'Something went wrong' });
+            res.status(400).send({ status: 400, msg: 'Something went wrong' });
         }
         client.release();
     }

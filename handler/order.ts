@@ -94,15 +94,16 @@ export async function placeOrder(req: Request, res: Response) {
         await Cart.updateCartAfterOrderPlaced(client, userId);
 
         if (billingResult !== null) {
-          res.status(200).json({
+          res.status(201).send({
+            status: 201,
             msg: 'Order place successfully'
           });
         } else {
-          res.status(400).send('Something went wrong');
+          res.status(400).send({ status: 400, msg: 'Something went wrong' });
         }
       }
     } else {
-      res.status(400).send({ error: 'Something went wrong' });
+      res.status(400).send({ status: 400, msg: 'Something went wrong' });
     }
     client.release();
   } catch (error) {

@@ -22,11 +22,15 @@ export async function addProduct(
     // replace this aws S3 bucket
     const products = await Product.saveProduct(client, productdata);
     if (products) {
-      res.status(200).json({
+      res.status(201).json({
+        status: 201,
         msg: 'product added successfully'
       });
     } else {
-      res.status(404).send({ msg: 'user not exits' });
+      res.status(400).send({
+        status: 400,
+        msg: 'Something went wrong while creating new product'
+      });
     }
     client.release();
   } catch (error) {
@@ -43,8 +47,8 @@ export async function getPoductList(req: Request, res: Response) {
     client = await pool.connect();
     const products = await Common.findAll(client, table);
     res.status(200).send({
-      token: 'JWT',
-      products
+      status: 200,
+      data: products
     });
     client.release();
   } catch (error) {
