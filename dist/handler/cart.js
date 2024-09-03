@@ -83,11 +83,10 @@ async function updateItemQty(req, res) {
 }
 async function getCartItems(req, res) {
     let client = null;
-    const { userId } = req.params;
-    const payload = { userId };
+    const userId = req.headers['x-request-id'];
     try {
         client = await db_1.default.connect();
-        const result = await classCart_1.default.getCartItems(client, payload);
+        const result = await classCart_1.default.getCartItems(client, userId);
         if (result) {
             res.status(200).send({ status: 200, data: result });
         }
@@ -97,6 +96,7 @@ async function getCartItems(req, res) {
         client.release();
     }
     catch (error) {
+        console.log(error);
         res.status(500).send(error);
         (0, helpers_1.clientClose)(client);
     }

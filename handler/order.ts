@@ -15,7 +15,7 @@ export async function placeOrder(req: Request, res: Response) {
   let client: PoolClient | null = null;
   try {
     client = await pool.connect();
-    const cartDetails = await Cart.getCartItems(client, { userId });
+    const cartDetails = await Cart.getCartItems(client, userId);
     const { totalPrice, totalItems } = cartDetails.reduce(
       (
         acc: { totalPrice: number; totalItems: number },

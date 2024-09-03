@@ -30,8 +30,7 @@ class Cart {
         }
         return null;
     }
-    static async getCartItems(client, data) {
-        const { userId } = data;
+    static async getCartItems(client, userId) {
         const sqlStatement = 'select sc.*, sp.product_name, sp.price, sp.discount_percentage, sp.discounted_price, sp.img, sp.review, sp.rating  from $$SCHEMANAME$$.cart sc left join $$SCHEMANAME$$.products sp ON sc.product_id=sp.id where user_id=$1 AND status=true';
         const values = [userId];
         const dbResult = await client.query((0, helpers_1.replaceSchema)(sqlStatement), values);

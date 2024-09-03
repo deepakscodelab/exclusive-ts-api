@@ -45,7 +45,7 @@ router.post('/add', (0, express_validator_1.checkSchema)(validationSchemas_1.cre
  *                       example: Addidas shoes
  */
 // userId need to move from path to request header
-router.get('/list/:userId', cart_1.getCartItems);
+router.get('/list', cart_1.getCartItems);
 /**
  * @swagger
  * /cart/delete/{id}:

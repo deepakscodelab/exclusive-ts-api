@@ -13,7 +13,7 @@ async function placeOrder(req, res) {
     let client = null;
     try {
         client = await db_1.default.connect();
-        const cartDetails = await classCart_1.default.getCartItems(client, { userId });
+        const cartDetails = await classCart_1.default.getCartItems(client, userId);
         const { totalPrice, totalItems } = cartDetails.reduce((acc, cart) => {
             return {
                 totalPrice: acc.totalPrice + cart.discounted_price,

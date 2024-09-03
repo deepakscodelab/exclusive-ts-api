@@ -49,7 +49,7 @@ router.post('/add', checkSchema(createCartValidationSchema), addToCart);
  */
 
 // userId need to move from path to request header
-router.get('/list/:userId', getCartItems);
+router.get('/list', getCartItems);
 
 /**
  * @swagger

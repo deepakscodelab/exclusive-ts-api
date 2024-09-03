@@ -79,11 +79,10 @@ export async function updateItemQty(req: Request, res: Response) {
 
 export async function getCartItems(req: Request, res: Response) {
   let client = null;
-  const { userId } = req.params;
-  const payload = { userId };
+  const userId = req.headers['x-request-id'];
   try {
     client = await pool.connect();
-    const result = await Cart.getCartItems(client, payload);
+    const result = await Cart.getCartItems(client, userId);
     if (result) {
       res.status(200).send({ status: 200, data: result });
     } else {
@@ -91,6 +90,7 @@ export async function getCartItems(req: Request, res: Response) {
     }
     client.release();
   } catch (error) {
+    console.log(error);
     res.status(500).send(error);
     clientClose(client);
   }
