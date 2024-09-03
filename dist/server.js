@@ -5,6 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger'); // Import the swagger configuration
 // Register the routes
 const authentication_1 = __importDefault(require("./routes/authentication"));
 const products_1 = __importDefault(require("./routes/products"));
@@ -21,6 +23,7 @@ if (env === 'production') {
 app.use(express_1.default.static('public'));
 // console.log(__dirname);
 // app.use(express.static(path.join(__dirname, 'public')));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api', router);
 // Setting up basic middleware for all Express requests
 app.use(body_parser_1.default.urlencoded({ extended: false })); // Parses urlencoded bodies

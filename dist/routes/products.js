@@ -13,24 +13,95 @@ router.get('/', (req, res) => {
     response.message = 'Product list';
     res.status(200).send(response);
 });
+/**
+ * @swagger
+ * /product/add:
+ *   post:
+ *     tags:
+ *       - product
+ *     summary: Create a product.
+ *     description: Retrieve a list of products.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: The product's name.
+ *                 example: Addidas shoes
+ *     responses:
+ *       201:
+ *         description: Created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     msg:
+ *                       type: string
+ *                       description: success message.
+ *                       example: product created successfully
+ */
 router.post('/add', (0, express_validator_1.checkSchema)(validationSchemas_1.createProductValidationSchema), products_1.addProduct);
+/**
+ * @swagger
+ * /product/list:
+ *   get:
+ *     tags:
+ *       - product
+ *     summary: Retrieve a list of products.
+ *     description: Retrieve a list of products.
+ *     responses:
+ *       200:
+ *         description: A list of products.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         description: The product ID.
+ *                         example: 1
+ *                       name:
+ *                         type: string
+ *                         description: The product's name.
+ *                         example: Addidas shoes
+ *                       price:
+ *                         type: integer
+ *                         description: price of product.
+ *                         example: 300
+ *                       discount_percentage:
+ *                         type: integer
+ *                         description: discount on product.
+ *                         example: 10
+ *                       discounted_price:
+ *                         type: integer
+ *                         description: discounted price.
+ *                         example: 270
+ *                       img:
+ *                         type: string
+ *                         description: product's image.
+ *                         example: product1.png
+ *                       review:
+ *                         type: integer
+ *                         description: product's review.
+ *                         example: 10
+ *                       rating:
+ *                         type: integer
+ *                         description: product's rating.
+ *                         example: 4
+ */
 router.get('/list', products_1.getPoductList);
-//Call function inside the routes
-// router.get('/productList', async (req, res) => {
-//   let client = null;
-//   const table = '$$SCHEMANAME$$.products';
-//   try {
-//     client = await pool.connect();
-//     const products = await Common.findAll(client, table);
-//     res.status(200).send({
-//       token: 'JWT',
-//       products
-//     });
-//     client.release();
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send();
-//     clientClose(client);
-//   }
-// });
 exports.default = router;

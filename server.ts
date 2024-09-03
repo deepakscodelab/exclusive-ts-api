@@ -1,6 +1,9 @@
 import express, { NextFunction, Request, Response, Router } from 'express';
 import bodyParser from 'body-parser';
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger'); // Import the swagger configuration
+
 // Register the routes
 import routeAuth from './routes/authentication';
 import routeProducts from './routes/products';
@@ -20,6 +23,8 @@ if (env === 'production') {
 app.use(express.static('public'));
 // console.log(__dirname);
 // app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/api', router);
 // Setting up basic middleware for all Express requests
