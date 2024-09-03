@@ -15,8 +15,6 @@ router.get('/', (req, res) => {
  * @swagger
  * /product/add:
  *   post:
- *     tags:
- *       - product
  *     summary: Create a product.
  *     description: Retrieve a list of products.
  *     requestBody:
