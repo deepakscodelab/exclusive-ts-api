@@ -34,15 +34,16 @@ app.use('*.css', (req, res, next) => {
 // CDN CSS
 const CSS_URL = './node_modules/swagger-ui-dist/swagger-ui.css';
 
-const JS_URL = [
-  './node_modules/swagger-ui-dist/swagger-ui-bundle.js',
-  './node_modules/swagger-ui-dist/swagger-ui-standalone-preset.js'
-];
+// const JS_URL = [
+//   './node_modules/swagger-ui-dist/swagger-ui-bundle.js',
+//   './node_modules/swagger-ui-dist/swagger-ui-standalone-preset.js'
+// ];
 
 app.use(
   '/api-docs',
   swaggerUi.serve,
-  swaggerUi.setup(swaggerSpec, { customCssUrl: CSS_URL, customJs: JS_URL })
+  swaggerUi.setup(swaggerSpec, { customCssUrl: CSS_URL })
+  // swaggerUi.setup(swaggerSpec, { customCssUrl: CSS_URL, customJs: JS_URL })
 );
 
 app.use('/api', router);

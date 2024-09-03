@@ -30,11 +30,13 @@ app.use('*.css', (req, res, next) => {
 // app.use(express.static(path.join(__dirname, 'public')));
 // CDN CSS
 const CSS_URL = './node_modules/swagger-ui-dist/swagger-ui.css';
-const JS_URL = [
-    './node_modules/swagger-ui-dist/swagger-ui-bundle.js',
-    './node_modules/swagger-ui-dist/swagger-ui-standalone-preset.js'
-];
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { customCssUrl: CSS_URL, customJs: JS_URL }));
+// const JS_URL = [
+//   './node_modules/swagger-ui-dist/swagger-ui-bundle.js',
+//   './node_modules/swagger-ui-dist/swagger-ui-standalone-preset.js'
+// ];
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { customCssUrl: CSS_URL })
+// swaggerUi.setup(swaggerSpec, { customCssUrl: CSS_URL, customJs: JS_URL })
+);
 app.use('/api', router);
 // Setting up basic middleware for all Express requests
 app.use(body_parser_1.default.urlencoded({ extended: false })); // Parses urlencoded bodies
